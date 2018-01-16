@@ -1,34 +1,56 @@
 ﻿#pragma strict
 import System.IO;
+import System.Collections.Generic;
 
 /***********************************
 KeyBinding
 Handles key bindings
 Mark Murphy
 Start	- 1/12/2018
-Update	- 1/12/2018
+Update	- 1/16/2018
 ***********************************/
 
-enum controlEnum {NORTH, SOUTH, EAST, WEST, ACTION, MENU, ACCEPT, BACK, SWAP_TEAM_FORWARD, SWAP_TEAM_BACK, SWAP_TAB_FORWARD, SWAP_TAB_BACK };
+enum controlEnum 
+{
+	NORTH, SOUTH, EAST, WEST,
+	ACTION, MENU, ACCEPT, BACK,
+	SWAP_TEAM_FORWARD, SWAP_TEAM_BACK,
+	SWAP_TAB_FORWARD, SWAP_TAB_BACK
+};
 
-private var controls : Hashtable;
+class KeyBind
+{
+	public var boundKey : controlEnum;
+	public var keyboardBind : List.<KeyCode>;
+
+	function KeyBind (key : controlEnum, binding : List.<KeyCode>)
+	{
+		this.boundKey = key;
+		this.keyboardBind = binding;
+	}
+};
+
+
+class Controls
+{
+	public var controlList : List.<KeyBind>;
+
+	function Controls()
+	{
+		controlList = new List.<KeyBind>();
+	}
+
+	function sortControls()
+	{
+		controlList.Sort(function(x : KeyBind){return x.boundKey;});
+	}
+};
+
+private var controls : Controls;
 
 function Start ()
 {
-	controls.Add(controlEnum.NORTH, 'w');
-	controls.Add(controlEnum.SOUTH, 's');
-	controls.Add(controlEnum.EAST, 'a');
-	controls.Add(controlEnum.WEST, 'd');
-
-	controls.Add(controlEnum.ACTION, 'n');
-	controls.Add(controlEnum.MENU, 'j');
-	controls.Add(controlEnum.ACCEPT, 'm');
-	controls.Add(controlEnum.BACK, 'k');
-
-	controls.Add(controlEnum.SWAP_TEAM_FORWARD, 'b');
-	controls.Add(controlEnum.SWAP_TEAM_BACK, 'h');
-	controls.Add(controlEnum.SWAP_TAB_FORWARD, 'b');
-	controls.Add(controlEnum.SWAP_TAB_BACK, 'h');
+	setToDefault();
 }
 
 function Update ()
@@ -36,71 +58,49 @@ function Update ()
 	
 }
 
-//----------------------
-// Directions
-//----------------------
-function setNorth(value : int)
+function setKeyBinding(index : controlEnum, value : KeyCode)
 {
-	controls[controlEnum.NORTH] = value;
+	controls.controlList[index].keyboardBind.Add(value);
 }
-function setSouth(value : int)
+function clearKeyBinding(index : controlEnum)
 {
-	controls[controlEnum.SOUTH] = value;
-}
-function setEast(value : int)
-{
-	controls[controlEnum.EAST] = value;
-}
-function setWest(value : int)
-{
-	controls[controlEnum.WEST] = value;
+	controls.controlList[index].keyboardBind = null;
 }
 
-//----------------------
-// Actions
-//----------------------
-function setAction(value : int)
+function setToDefault()
 {
-	controls[controlEnum.ACTION] = value;
-}
-function setMenu(value : int)
-{
-	controls[controlEnum.MENU] = value;
-}
-function setAccept(value : int)
-{
-	controls[controlEnum.ACCEPT] = value;
-}
-function setBack(value : int)
-{
-	controls[controlEnum.BACK] = value;
+	controls.controlList.Clear();
+
+	// Directions
+	controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>(KeyCode.W)));
+	controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>(KeyCode.S)));
+	controls.controlList.Add(new KeyBind(controlEnum.EAST, new List.<KeyCode>(KeyCode.A)));
+	controls.controlList.Add(new KeyBind(controlEnum.WEST, new List.<KeyCode>(KeyCode.D)));
+
+	// Actions
+	controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>(KeyCode.N)));
+	controls.controlList.Add(new KeyBind(controlEnum.MENU, new List.<KeyCode>(KeyCode.J)));
+	controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>(KeyCode.M)));
+	controls.controlList.Add(new KeyBind(controlEnum.BACK, new List.<KeyCode>(KeyCode.K)));
+
+	// Swaping
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>(KeyCode.B)));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, new List.<KeyCode>(KeyCode.H)));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, new List.<KeyCode>(KeyCode.B)));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, new List.<KeyCode>(KeyCode.H)));
 }
 
-//----------------------
-// Swap ally position / switch tabs
-//----------------------
-function setSwapTeamForward(value : int)
-{
-	controls[controlEnum.SWAP_TEAM_FORWARD] = value;
-}
-function setSwapTeamBack(value : int)
-{
-	controls[controlEnum.SWAP_TEAM_BACK] = value;
-}
-function setSwapTabForward(value : int)
-{
-	controls[controlEnum.SWAP_TAB_FORWARD] = value;
-}
-function setSwapTabBack(value : int)
-{
-	controls[controlEnum.SWAP_TAB_BACK] = value;
-}
+
+
+
 
 //----------------------
 // Save / Load settings
 //----------------------
-function saveControls(saveLocation : String, saveName : String)
+function saveControls()//saveLocation : String, saveName : String)
 {
+	var saveLocation = "";
+	var saveName = "Test";
 	var sw : StreamWriter = new System.IO.StreamWriter(saveLocation + saveName + ".json");
 	sw.WriteLine(JsonUtility.ToJson(controls));
 	sw.Close();
