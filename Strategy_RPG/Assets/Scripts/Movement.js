@@ -5,7 +5,7 @@ Movement
 Manages all sprite movement
 Mark Murphy
 Start	- 1/9/2018
-Update	- 1/11/2018
+Update	- 1/16/2018
 ***********************************/
 
 public var moveObj : GameObject;
@@ -39,7 +39,6 @@ function Update ()
 // Move in strait line from current location
 function MoveTo()
 {
-	print ("Moving To Target Location.");
 	StartCoroutine(MoveObject(moveObj));
 }
 
@@ -67,5 +66,4 @@ function MoveObject (moveObj : GameObject)
         yield;
     }
     moving = false;
-	print ("Moved to Location.");
 }

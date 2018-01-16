@@ -18,6 +18,7 @@ enum controlEnum
 	SWAP_TAB_FORWARD, SWAP_TAB_BACK
 };
 
+
 class KeyBind
 {
 	public var boundKey : controlEnum;
@@ -30,12 +31,11 @@ class KeyBind
 	}
 };
 
-
-class Controls
+class BoundControls
 {
 	public var controlList : List.<KeyBind>;
 
-	function Controls()
+	function BoundControls()
 	{
 		controlList = new List.<KeyBind>();
 	}
@@ -44,18 +44,38 @@ class Controls
 	{
 		controlList.Sort(function(x : KeyBind){return x.boundKey;});
 	}
+
+	public function SaveToString()
+	{
+		return JsonUtility.ToJson(this);
+	}
+
+	public function Load(savedData: String)
+	{
+		JsonUtility.FromJsonOverwrite(savedData, this);
+	}
 };
 
-private var controls : Controls;
+
+
+private var controls : BoundControls;
+private var addingBinding : boolean;
 
 function Start ()
 {
+	addingBinding = false;
+
+	setFilePath();
 	setToDefault();
+	loadControls();
 }
 
 function Update ()
 {
-	
+	if(addingBinding && Input.anyKey)
+	{
+		//KeyCode
+	}
 }
 
 function setKeyBinding(index : controlEnum, value : KeyCode)
@@ -69,25 +89,25 @@ function clearKeyBinding(index : controlEnum)
 
 function setToDefault()
 {
-	controls.controlList.Clear();
+	controls = new BoundControls();
 
 	// Directions
-	controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>(KeyCode.W)));
-	controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>(KeyCode.S)));
-	controls.controlList.Add(new KeyBind(controlEnum.EAST, new List.<KeyCode>(KeyCode.A)));
-	controls.controlList.Add(new KeyBind(controlEnum.WEST, new List.<KeyCode>(KeyCode.D)));
+	controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>([KeyCode.W]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>([KeyCode.S]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.EAST,  new List.<KeyCode>([KeyCode.A]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.WEST,  new List.<KeyCode>([KeyCode.D]) ));
 
 	// Actions
-	controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>(KeyCode.N)));
-	controls.controlList.Add(new KeyBind(controlEnum.MENU, new List.<KeyCode>(KeyCode.J)));
-	controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>(KeyCode.M)));
-	controls.controlList.Add(new KeyBind(controlEnum.BACK, new List.<KeyCode>(KeyCode.K)));
+	controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>([KeyCode.N]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.MENU, 	 new List.<KeyCode>([KeyCode.J]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>([KeyCode.M]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.BACK, 	 new List.<KeyCode>([KeyCode.K]) ));
 
 	// Swaping
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>(KeyCode.B)));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, new List.<KeyCode>(KeyCode.H)));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, new List.<KeyCode>(KeyCode.B)));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, new List.<KeyCode>(KeyCode.H)));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>([KeyCode.B]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, 	new List.<KeyCode>([KeyCode.B]) ));
+	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
 }
 
 
@@ -97,26 +117,30 @@ function setToDefault()
 //----------------------
 // Save / Load settings
 //----------------------
-function saveControls()//saveLocation : String, saveName : String)
+var completeFilePath : String;
+
+function setFilePath()
 {
-	var saveLocation = "";
-	var saveName = "Test";
-	var sw : StreamWriter = new System.IO.StreamWriter(saveLocation + saveName + ".json");
-	sw.WriteLine(JsonUtility.ToJson(controls));
-	sw.Close();
+	var systemPath = System.Environment.GetFolderPath (System.Environment.SpecialFolder.ApplicationData);
+	var withFile = Path.Combine(systemPath, "test_save_SRPG");
+	Directory.CreateDirectory(withFile);
+	completeFilePath = Path.Combine(withFile, "CustomKeyBinding.json");
 }
 
-function loadControls(loadLocation : String, loadName : String)
+function saveControls()
 {
-	var sr : StreamReader = new System.IO.StreamReader(loadLocation + loadName + ".json");
+	File.WriteAllText(completeFilePath, controls.SaveToString());
+}
 
-	var line : String = "";
-
-	while (!sr.EndOfStream)
+function loadControls()
+{
+	try
 	{
-		line += sr.ReadLine();
+		controls.Load(File.ReadAllText(completeFilePath));
+		print("load succeded!");
 	}
-	sr.Close();
-
-	//controls = JsonUtility.FromJson(line, Hashtable);
+	catch(e)
+	{
+		print("load failed! - " + e.Message);
+	}
 }
