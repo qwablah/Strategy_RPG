@@ -72,9 +72,22 @@ function Start ()
 
 function Update ()
 {
-	if(addingBinding && Input.anyKey)
+	
+}
+
+function OnGUI()
+{
+	var e : Event = Event.current;
+	if(e)
 	{
-		//KeyCode
+		if(e.isKey && Input.GetKeyDown(e.keyCode))
+		{
+			print("Key Detected! - " + e.keyCode);
+		}
+		else if(e.isMouse && Input.GetMouseButtonDown(e.button))
+		{
+			print("Key Detected! - " + e.button);
+		}
 	}
 }
 
