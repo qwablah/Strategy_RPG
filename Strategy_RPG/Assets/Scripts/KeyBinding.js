@@ -1,13 +1,14 @@
 ﻿#pragma strict
 import System.IO;
 import System.Collections.Generic;
+import UnityEngine.UI;
 
 /***********************************
 KeyBinding
 Handles key bindings
 Mark Murphy
 Start	- 1/12/2018
-Update	- 1/16/2018
+Update	- 1/18/2018
 ***********************************/
 
 enum controlEnum 
@@ -37,6 +38,11 @@ class BoundControls
 
 	function BoundControls()
 	{
+		//controlList = new List.<KeyBind>();
+	}
+
+	function start()
+	{
 		controlList = new List.<KeyBind>();
 	}
 
@@ -57,9 +63,14 @@ class BoundControls
 };
 
 
+public var bindButtons: List.<Button>;
+public var clearButtons: List.<Button>;
+public var useSameAsTeamToggle: Toggle;
 
 private var controls : BoundControls;
+private var bindingIndex : int;
 private var addingBinding : boolean;
+private var useSameAsTeam: boolean;
 
 function Start ()
 {
@@ -68,20 +79,60 @@ function Start ()
 	setFilePath();
 	setToDefault();
 	loadControls();
+
+	bindButtons.ForEach(function(bind)
+	{
+		bind.onClick.AddListener(function()
+		{
+			bindingIndex = bindButtons.IndexOf(bind);
+			addingBinding = true;
+			print("Button Clicked: " + bind.name);
+		});
+	});
+
+	clearButtons.ForEach(function(clear)
+	{
+		clear.onClick.AddListener(function()
+		{
+			clearKeyBinding(clearButtons.IndexOf(clear));
+			print("Button Clicked: " + clear.name);
+		});
+	});
 }
 
 function Update ()
 {
-	
+
 }
 
 function OnGUI()
 {
 	var e : Event = Event.current;
-	if(e)
+	if(e && addingBinding)
 	{
 		if(e.isKey && Input.GetKeyDown(e.keyCode))
 		{
+			if(useSameAsTeamToggle.isOn)
+			{
+				switch(bindingIndex)
+				{
+				case controlEnum.SWAP_TEAM_FORWARD:
+					setKeyBinding(controlEnum.SWAP_TAB_FORWARD, e.keyCode);
+					break;
+				case controlEnum.SWAP_TEAM_BACK:
+					setKeyBinding(controlEnum.SWAP_TAB_BACK, e.keyCode);
+					break;
+				case controlEnum.SWAP_TAB_FORWARD:
+					setKeyBinding(controlEnum.SWAP_TEAM_FORWARD, e.keyCode);
+					break;
+				case controlEnum.SWAP_TAB_BACK:
+					setKeyBinding(controlEnum.SWAP_TEAM_BACK, e.keyCode);
+					break;
+				}
+			}
+
+			setKeyBinding(bindingIndex, e.keyCode);
+			addingBinding = false;
 			print("Key Detected! - " + e.keyCode);
 		}
 		else if(e.isMouse && Input.GetMouseButtonDown(e.button))
@@ -94,15 +145,64 @@ function OnGUI()
 function setKeyBinding(index : controlEnum, value : KeyCode)
 {
 	controls.controlList[index].keyboardBind.Add(value);
+	setBindingText(index);
 }
+
 function clearKeyBinding(index : controlEnum)
 {
-	controls.controlList[index].keyboardBind = null;
+	if(useSameAsTeamToggle.isOn)
+	{
+		switch(index)
+		{
+		case controlEnum.SWAP_TEAM_FORWARD:
+			clearKeys(controlEnum.SWAP_TAB_FORWARD);
+			break;
+		case controlEnum.SWAP_TEAM_BACK:
+			clearKeys(controlEnum.SWAP_TAB_BACK);
+			break;
+		case controlEnum.SWAP_TAB_FORWARD:
+			clearKeys(controlEnum.SWAP_TEAM_FORWARD);
+			break;
+		case controlEnum.SWAP_TAB_BACK:
+			clearKeys(controlEnum.SWAP_TEAM_BACK);
+			break;
+		}
+	}
+	clearKeys(index);
+}
+
+function clearKeys(index : controlEnum)
+{
+	controls.controlList[index].keyboardBind = new List.<KeyCode>();
+	setBindingText(index);
+}
+
+function setAllBindingText()
+{
+	bindButtons.ForEach(function(bind)
+	{
+		setBindingText(bindButtons.IndexOf(bind));
+	});
+}
+
+function setBindingText(index : int)
+{
+	var text : Text = bindButtons[index].GetComponentInChildren(Text);
+
+	var keyString : String = "";
+	controls.controlList[index].keyboardBind.ForEach(function(bind)
+	{
+		if(keyString != "") keyString += ", ";
+		keyString += bind.ToString();
+	});
+
+	text.text = keyString;
 }
 
 function setToDefault()
 {
 	controls = new BoundControls();
+	controls.controlList = new List.<KeyBind>();
 
 	// Directions
 	controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>([KeyCode.W]) ));
@@ -121,6 +221,8 @@ function setToDefault()
 	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
 	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, 	new List.<KeyCode>([KeyCode.B]) ));
 	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
+
+	setAllBindingText();
 }
 
 
@@ -150,6 +252,7 @@ function loadControls()
 	try
 	{
 		controls.Load(File.ReadAllText(completeFilePath));
+		setAllBindingText();
 		print("load succeded!");
 	}
 	catch(e)
