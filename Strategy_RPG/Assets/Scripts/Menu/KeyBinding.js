@@ -8,7 +8,7 @@ KeyBinding
 Handles key bindings
 Mark Murphy
 Start	- 1/12/2018
-Update	- 1/18/2018
+Update	- 1/19/2018
 ***********************************/
 
 enum controlEnum 
@@ -36,11 +36,6 @@ class BoundControls
 {
 	public var controlList : List.<KeyBind>;
 
-	function BoundControls()
-	{
-		//controlList = new List.<KeyBind>();
-	}
-
 	function start()
 	{
 		controlList = new List.<KeyBind>();
@@ -50,35 +45,27 @@ class BoundControls
 	{
 		controlList.Sort(function(x : KeyBind){return x.boundKey;});
 	}
-
-	public function SaveToString()
-	{
-		return JsonUtility.ToJson(this);
-	}
-
-	public function Load(savedData: String)
-	{
-		JsonUtility.FromJsonOverwrite(savedData, this);
-	}
 };
 
 
-public var bindButtons: List.<Button>;
-public var clearButtons: List.<Button>;
-public var useSameAsTeamToggle: Toggle;
+public var saveLoad : SaveLoadHandler;
+public var bindButtons : List.<Button>;
+public var clearButtons : List.<Button>;
+public var useSameAsTeamToggle : Toggle;
 
 private var controls : BoundControls;
 private var bindingIndex : int;
 private var addingBinding : boolean;
-private var useSameAsTeam: boolean;
+private var useSameAsTeam : boolean;
 
 function Start ()
 {
 	addingBinding = false;
 
-	setFilePath();
+	saveLoad.setFilePath();
 	setToDefault();
-	loadControls();
+	saveLoad.load(controls);
+	setAllBindingText();
 
 	bindButtons.ForEach(function(bind)
 	{
@@ -105,6 +92,28 @@ function Update ()
 
 }
 
+function checkToggle(key : KeyCode)
+{
+	if(useSameAsTeamToggle.isOn)
+	{
+		switch(bindingIndex)
+		{
+		case controlEnum.SWAP_TEAM_FORWARD:
+			setKeyBinding(controlEnum.SWAP_TAB_FORWARD, key);
+			break;
+		case controlEnum.SWAP_TEAM_BACK:
+			setKeyBinding(controlEnum.SWAP_TAB_BACK, key);
+			break;
+		case controlEnum.SWAP_TAB_FORWARD:
+			setKeyBinding(controlEnum.SWAP_TEAM_FORWARD, key);
+			break;
+		case controlEnum.SWAP_TAB_BACK:
+			setKeyBinding(controlEnum.SWAP_TEAM_BACK, key);
+			break;
+		}
+	}
+}
+
 function OnGUI()
 {
 	var e : Event = Event.current;
@@ -112,25 +121,7 @@ function OnGUI()
 	{
 		if(e.isKey && Input.GetKeyDown(e.keyCode))
 		{
-			if(useSameAsTeamToggle.isOn)
-			{
-				switch(bindingIndex)
-				{
-				case controlEnum.SWAP_TEAM_FORWARD:
-					setKeyBinding(controlEnum.SWAP_TAB_FORWARD, e.keyCode);
-					break;
-				case controlEnum.SWAP_TEAM_BACK:
-					setKeyBinding(controlEnum.SWAP_TAB_BACK, e.keyCode);
-					break;
-				case controlEnum.SWAP_TAB_FORWARD:
-					setKeyBinding(controlEnum.SWAP_TEAM_FORWARD, e.keyCode);
-					break;
-				case controlEnum.SWAP_TAB_BACK:
-					setKeyBinding(controlEnum.SWAP_TEAM_BACK, e.keyCode);
-					break;
-				}
-			}
-
+			checkToggle(e.keyCode);
 			setKeyBinding(bindingIndex, e.keyCode);
 			addingBinding = false;
 			print("Key Detected! - " + e.keyCode);
@@ -225,38 +216,7 @@ function setToDefault()
 	setAllBindingText();
 }
 
-
-
-
-
-//----------------------
-// Save / Load settings
-//----------------------
-var completeFilePath : String;
-
-function setFilePath()
-{
-	var systemPath = System.Environment.GetFolderPath (System.Environment.SpecialFolder.ApplicationData);
-	var withFile = Path.Combine(systemPath, "test_save_SRPG");
-	Directory.CreateDirectory(withFile);
-	completeFilePath = Path.Combine(withFile, "CustomKeyBinding.json");
-}
-
 function saveControls()
 {
-	File.WriteAllText(completeFilePath, controls.SaveToString());
-}
-
-function loadControls()
-{
-	try
-	{
-		controls.Load(File.ReadAllText(completeFilePath));
-		setAllBindingText();
-		print("load succeded!");
-	}
-	catch(e)
-	{
-		print("load failed! - " + e.Message);
-	}
+	saveLoad.save(controls);
 }

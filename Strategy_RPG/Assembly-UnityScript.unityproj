@@ -47,9 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraMovement.js" />
-     <Compile Include="Assets\Scripts\KeyBinding.js" />
-     <Compile Include="Assets\Scripts\MenuManager.js" />
-     <Compile Include="Assets\Scripts\MouseInput.js" />
+     <Compile Include="Assets\Scripts\Input\MouseInput.js" />
+     <Compile Include="Assets\Scripts\Menu\KeyBinding.js" />
+     <Compile Include="Assets\Scripts\Menu\MenuManager.js" />
+     <Compile Include="Assets\Scripts\Menu\SaveLoadHandler.js" />
      <Compile Include="Assets\Scripts\Movement.js" />
      <Compile Include="Assets\Scripts\OverworldCharacter.js" />
  <Reference Include="UnityEngine.UI">
