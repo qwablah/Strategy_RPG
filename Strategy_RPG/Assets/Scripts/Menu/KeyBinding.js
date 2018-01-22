@@ -47,8 +47,9 @@ class BoundControls
 	}
 };
 
-
+public var uv : UniversalVariables;
 public var saveLoad : SaveLoadHandler;
+
 public var bindButtons : List.<Button>;
 public var clearButtons : List.<Button>;
 public var useSameAsTeamToggle : Toggle;
@@ -66,6 +67,7 @@ function Start ()
 	setToDefault();
 	saveLoad.load(controls);
 	setAllBindingText();
+	uv.controls = controls;
 
 	bindButtons.ForEach(function(bind)
 	{
@@ -219,4 +221,5 @@ function setToDefault()
 function saveControls()
 {
 	saveLoad.save(controls);
+	uv.controls = controls;
 }

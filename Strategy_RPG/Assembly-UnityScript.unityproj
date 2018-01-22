@@ -47,12 +47,15 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraMovement.js" />
+     <Compile Include="Assets\Scripts\Input\KeyboardInput.js" />
      <Compile Include="Assets\Scripts\Input\MouseInput.js" />
      <Compile Include="Assets\Scripts\Menu\KeyBinding.js" />
      <Compile Include="Assets\Scripts\Menu\MenuManager.js" />
      <Compile Include="Assets\Scripts\Menu\SaveLoadHandler.js" />
      <Compile Include="Assets\Scripts\Movement.js" />
      <Compile Include="Assets\Scripts\OverworldCharacter.js" />
+     <Compile Include="Assets\Scripts\Universal\GameplayObjectHolder.js" />
+     <Compile Include="Assets\Scripts\Universal\UniversalVariables.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5.6.2f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

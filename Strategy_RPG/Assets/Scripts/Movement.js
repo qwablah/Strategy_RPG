@@ -8,9 +8,10 @@ Start	- 1/9/2018
 Update	- 1/16/2018
 ***********************************/
 
+public var uv : UniversalVariables;
+
 public var moveObj : GameObject;
 public var targetLocation : GameObject;
-public var moving : boolean;
 
 private var moveSpeed : float;
 private var snapTolerance : float;
@@ -18,19 +19,20 @@ private var translation : Vector3;
 
 function Start ()
 {
-	moving = false;
+	//moving = false;
 	moveSpeed = 0.1;
-	snapTolerance = 0.1;
+	snapTolerance = 0.05;
 }
 
 function Update ()
 {
+	// Mouse movement
 	if(moveObj.transform.position != targetLocation.transform.position)
 	{
 		translation = targetLocation.transform.position - moveObj.transform.position;
-		if(!moving)
+		if(!uv.isMoving)
 		{
-			moving = true;
+			uv.isMoving = true;
 			MoveTo();
 		}
 	}
@@ -65,5 +67,5 @@ function MoveObject (moveObj : GameObject)
         // Yield execution of this coroutine and return to the main loop until next frame
         yield;
     }
-    moving = false;
+    uv.isMoving = false;
 }
