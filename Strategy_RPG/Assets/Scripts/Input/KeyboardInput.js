@@ -5,17 +5,17 @@ KeyboardInput
 Manages keyboard input
 Mark Murphy
 Start	- 1/22/2018
-Update	- 1/22/2018
+Update	- 1/23/2018
 ***********************************/
 
 public var uv : UniversalVariables;
 public var goh : GameplayObjectHolder;
 
-private var animator : Animator;
+private var oc : OverworldCharacter;
 
 function Start ()
 {
-	animator = goh.character.GetComponentInChildren(Animator);
+	oc = goh.character.GetComponentInChildren(OverworldCharacter);
 }
 
 function Update ()
@@ -23,62 +23,49 @@ function Update ()
 	// Keyboard movement
 	if(uv.isMovePressed && (goh.moveToLocation.transform.position == goh.targetLocation.transform.position))
 	{
-		if(uv.buttonPressed == controlEnum.NORTH)
+		if(uv.controls.controlList[controlEnum.NORTH].isPressed)
 		{
 			goh.targetLocation.transform.position.y += uv.spriteHeight;
-			animator.SetTrigger("WalkNorth");
+			oc.dirFacing = dirEnum.NORTH;
 		}
-		if(uv.buttonPressed == controlEnum.SOUTH)
+		else if(uv.controls.controlList[controlEnum.SOUTH].isPressed)
 		{
 			goh.targetLocation.transform.position.y -= uv.spriteHeight;
-			animator.SetTrigger("WalkSouth");
+			oc.dirFacing = dirEnum.SOUTH;
 		}
-		if(uv.buttonPressed == controlEnum.EAST)
+		else if(uv.controls.controlList[controlEnum.EAST].isPressed)
 		{
 			goh.targetLocation.transform.position.x -= uv.spriteHeight;
-			animator.SetTrigger("WalkEast");
+			oc.dirFacing = dirEnum.EAST;
 		}
-		if(uv.buttonPressed == controlEnum.WEST)
+		else if(uv.controls.controlList[controlEnum.WEST].isPressed)
 		{
 			goh.targetLocation.transform.position.x += uv.spriteHeight;
-			animator.SetTrigger("WalkWest");
+			oc.dirFacing = dirEnum.WEST;
 		}
-		uv.isMovePressed = false;
-		animator.SetBool("Moving", true);
+		else
+		{
+			uv.isMovePressed = false;
+		}
 	}
 
 	if(!uv.isMoving)
 	{
 		goh.moveToLocation.transform.position = goh.targetLocation.transform.position;
 		goh.startLocation.transform.position = goh.character.transform.position;
-		animator.SetBool("Moving", false);
 	}
-}
-
-function checkInput(index : int, key : KeyCode)
-{
-	uv.controls.controlList[index].keyboardBind.ForEach(function(boundKey)
-	{
-		if(boundKey == key)
-		{
-			uv.buttonPressed = index;
-			if(index <= 3) uv.isMovePressed = true;
-			else uv.isActionPressed = true;
-		}
-	});
 }
 
 function OnGUI()
 {
 	var e : Event = Event.current;
-	if(e)
+	if(e && e.isKey)
 	{
-		if(e.isKey && Input.GetKey(e.keyCode))
+		uv.controls.controlList.ForEach(function(key)
 		{
-			for(var i = 0; i < uv.totalKeys; i++)
-			{
-				checkInput(i, e.keyCode);
-			}
-		}
+			key.CheckKeyPress();
+			if(key.boundKey > 3) uv.isMovePressed = true;
+			else uv.isActionPressed = true;
+		});
 	}
 }

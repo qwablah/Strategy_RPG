@@ -19,7 +19,6 @@ private var translation : Vector3;
 
 function Start ()
 {
-	//moving = false;
 	moveSpeed = 0.1;
 	snapTolerance = 0.05;
 }
@@ -60,7 +59,8 @@ function MoveObject (moveObj : GameObject)
 		&& Mathf.Abs(moveObjPos.y - targetLocPos.y) < snapTolerance
 		&& Mathf.Abs(moveObjPos.z - targetLocPos.z) < snapTolerance)
 		{
-			moveObj.transform.position = targetLocation.transform.position;
+			if(!uv.isMovePressed)
+				moveObj.transform.position = targetLocation.transform.position;
 			loop = false;
 		}
 

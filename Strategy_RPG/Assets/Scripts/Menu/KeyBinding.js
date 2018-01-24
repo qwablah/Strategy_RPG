@@ -8,44 +8,8 @@ KeyBinding
 Handles key bindings
 Mark Murphy
 Start	- 1/12/2018
-Update	- 1/19/2018
+Update	- 1/23/2018
 ***********************************/
-
-enum controlEnum 
-{
-	NORTH, SOUTH, EAST, WEST,
-	ACTION, MENU, ACCEPT, BACK,
-	SWAP_TEAM_FORWARD, SWAP_TEAM_BACK,
-	SWAP_TAB_FORWARD, SWAP_TAB_BACK
-};
-
-
-class KeyBind
-{
-	public var boundKey : controlEnum;
-	public var keyboardBind : List.<KeyCode>;
-
-	function KeyBind (key : controlEnum, binding : List.<KeyCode>)
-	{
-		this.boundKey = key;
-		this.keyboardBind = binding;
-	}
-};
-
-class BoundControls
-{
-	public var controlList : List.<KeyBind>;
-
-	function start()
-	{
-		controlList = new List.<KeyBind>();
-	}
-
-	function sortControls()
-	{
-		controlList.Sort(function(x : KeyBind){return x.boundKey;});
-	}
-};
 
 public var uv : UniversalVariables;
 public var saveLoad : SaveLoadHandler;
@@ -54,7 +18,6 @@ public var bindButtons : List.<Button>;
 public var clearButtons : List.<Button>;
 public var useSameAsTeamToggle : Toggle;
 
-private var controls : BoundControls;
 private var bindingIndex : int;
 private var addingBinding : boolean;
 private var useSameAsTeam : boolean;
@@ -65,9 +28,8 @@ function Start ()
 
 	saveLoad.setFilePath();
 	setToDefault();
-	saveLoad.load(controls);
+	saveLoad.load(uv.controls);
 	setAllBindingText();
-	uv.controls = controls;
 
 	bindButtons.ForEach(function(bind)
 	{
@@ -135,13 +97,13 @@ function OnGUI()
 	}
 }
 
-function setKeyBinding(index : controlEnum, value : KeyCode)
+function setKeyBinding(index : int, value : KeyCode)
 {
-	controls.controlList[index].keyboardBind.Add(value);
+	uv.controls.controlList[index].keyboardBind.Add(value);
 	setBindingText(index);
 }
 
-function clearKeyBinding(index : controlEnum)
+function clearKeyBinding(index : int)
 {
 	if(useSameAsTeamToggle.isOn)
 	{
@@ -164,9 +126,9 @@ function clearKeyBinding(index : controlEnum)
 	clearKeys(index);
 }
 
-function clearKeys(index : controlEnum)
+function clearKeys(index : int)
 {
-	controls.controlList[index].keyboardBind = new List.<KeyCode>();
+	uv.controls.controlList[index].keyboardBind = new List.<KeyCode>();
 	setBindingText(index);
 }
 
@@ -183,7 +145,7 @@ function setBindingText(index : int)
 	var text : Text = bindButtons[index].GetComponentInChildren(Text);
 
 	var keyString : String = "";
-	controls.controlList[index].keyboardBind.ForEach(function(bind)
+	uv.controls.controlList[index].keyboardBind.ForEach(function(bind)
 	{
 		if(keyString != "") keyString += ", ";
 		keyString += bind.ToString();
@@ -194,32 +156,30 @@ function setBindingText(index : int)
 
 function setToDefault()
 {
-	controls = new BoundControls();
-	controls.controlList = new List.<KeyBind>();
+	uv.controls = new BoundControls();
 
 	// Directions
-	controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>([KeyCode.W]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>([KeyCode.S]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.EAST,  new List.<KeyCode>([KeyCode.A]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.WEST,  new List.<KeyCode>([KeyCode.D]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>([KeyCode.W, KeyCode.UpArrow]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>([KeyCode.S, KeyCode.DownArrow]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.EAST,  new List.<KeyCode>([KeyCode.A, KeyCode.RightArrow]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.WEST,  new List.<KeyCode>([KeyCode.D, KeyCode.LeftArrow]) ));
 
 	// Actions
-	controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>([KeyCode.N]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.MENU, 	 new List.<KeyCode>([KeyCode.J]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>([KeyCode.M]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.BACK, 	 new List.<KeyCode>([KeyCode.K]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>([KeyCode.N, KeyCode.Keypad0]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.MENU, 	 new List.<KeyCode>([KeyCode.J, KeyCode.KeypadEnter]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>([KeyCode.M, KeyCode.Keypad1]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.BACK, 	 new List.<KeyCode>([KeyCode.K, KeyCode.Keypad2]) ));
 
 	// Swaping
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>([KeyCode.B]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, 	new List.<KeyCode>([KeyCode.B]) ));
-	controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, 	new List.<KeyCode>([KeyCode.H]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, 	new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, 	new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, 	new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
 
 	setAllBindingText();
 }
 
 function saveControls()
 {
-	saveLoad.save(controls);
-	uv.controls = controls;
+	saveLoad.save(uv.controls);
 }

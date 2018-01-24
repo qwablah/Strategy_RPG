@@ -1,11 +1,12 @@
 ﻿<Properties StartupItem="Assembly-UnityScript.unityproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Input\KeyboardInput.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Menu\KeyBinding.js">
     <Files>
-      <File FileName="Assets\Scripts\Menu\KeyBinding.js" Line="125" Column="4" />
-      <File FileName="Assets\Scripts\Movement.js" Line="24" Column="22" />
-      <File FileName="Assets\Scripts\Input\MouseInput.js" Line="12" Column="39" />
-      <File FileName="Assets\Scripts\Input\KeyboardInput.js" Line="54" Column="35" />
+      <File FileName="Assets\Scripts\Menu\KeyBinding.js" Line="177" Column="116" />
+      <File FileName="Assets\Scripts\Input\KeyboardInput.js" Line="55" Column="75" />
+      <File FileName="Assets\Scripts\OverworldCharacter.js" Line="44" Column="2" />
+      <File FileName="Assets\Scripts\Universal\UniversalVariables.js" Line="11" Column="43" />
+      <File FileName="Assets\Scripts\Movement.js" Line="13" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
