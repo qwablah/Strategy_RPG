@@ -5,21 +5,20 @@ OverworldCharacter
 Holds information for overworld characters
 Mark Murphy
 Start	- 1/11/2018
-Update	- 1/23/2018
+Update	- 1/24/2018
 ***********************************/
 
-//enum dirEnum { NORTH, SOUTH, EAST, WEST };
 var dirFacing : int;
 var isMoving : boolean;
 
-private var animator : Animator;
+//private var animator : Animator;
 
 function Start ()
 {
 	isMoving = false;
 	dirFacing = dirEnum.SOUTH;
 
-	animator = this.GetComponentInChildren(Animator);
+	//animator = this.GetComponentInChildren(Animator);
 }
 
 function Update ()
@@ -27,16 +26,16 @@ function Update ()
 	switch(dirFacing)
 	{
 	case dirEnum.NORTH:
-		animator.SetTrigger("WalkNorth");
+		//animator.SetTrigger("WalkNorth");
 		break;
 	case dirEnum.SOUTH:
-		animator.SetTrigger("WalkSouth");
+		//animator.SetTrigger("WalkSouth");
 		break;
 	case dirEnum.EAST:
-		animator.SetTrigger("WalkEast");
+		//animator.SetTrigger("WalkEast");
 		break;
 	case dirEnum.WEST:
-		animator.SetTrigger("WalkWest");
+		//animator.SetTrigger("WalkWest");
 		break;
 	}
 

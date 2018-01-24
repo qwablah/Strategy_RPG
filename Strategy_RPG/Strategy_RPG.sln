@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strategy_RPG", "Assembly-CSharp-Editor.csproj", "{7143B38E-FB55-078D-BEB6-35AA2DEB827D}"
+EndProject
 Project("{82787046-B916-F269-9417-933E050BBBFE}") = "Strategy_RPG", "Assembly-UnityScript.unityproj", "{2DEA8EB8-CA63-0F0C-6F9B-593871526976}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7143B38E-FB55-078D-BEB6-35AA2DEB827D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7143B38E-FB55-078D-BEB6-35AA2DEB827D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7143B38E-FB55-078D-BEB6-35AA2DEB827D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7143B38E-FB55-078D-BEB6-35AA2DEB827D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DEA8EB8-CA63-0F0C-6F9B-593871526976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DEA8EB8-CA63-0F0C-6F9B-593871526976}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DEA8EB8-CA63-0F0C-6F9B-593871526976}.Release|Any CPU.ActiveCfg = Release|Any CPU

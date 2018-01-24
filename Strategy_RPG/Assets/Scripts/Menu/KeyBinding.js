@@ -8,7 +8,7 @@ KeyBinding
 Handles key bindings
 Mark Murphy
 Start	- 1/12/2018
-Update	- 1/23/2018
+Update	- 1/24/2018
 ***********************************/
 
 public var uv : UniversalVariables;
@@ -166,15 +166,15 @@ function setToDefault()
 
 	// Actions
 	uv.controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>([KeyCode.N, KeyCode.Keypad0]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.MENU, 	 new List.<KeyCode>([KeyCode.J, KeyCode.KeypadEnter]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.MENU,	new List.<KeyCode>([KeyCode.J, KeyCode.KeypadEnter]) ));
 	uv.controls.controlList.Add(new KeyBind(controlEnum.ACCEPT, new List.<KeyCode>([KeyCode.M, KeyCode.Keypad1]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.BACK, 	 new List.<KeyCode>([KeyCode.K, KeyCode.Keypad2]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.BACK,	new List.<KeyCode>([KeyCode.K, KeyCode.Keypad2]) ));
 
 	// Swaping
-	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD, new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK, 	new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD, 	new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK, 	new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_FORWARD,	new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TEAM_BACK,		new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_FORWARD,	new List.<KeyCode>([KeyCode.B, KeyCode.Keypad4]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.SWAP_TAB_BACK,		new List.<KeyCode>([KeyCode.H, KeyCode.Keypad5]) ));
 
 	setAllBindingText();
 }

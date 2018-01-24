@@ -5,7 +5,7 @@ KeyboardInput
 Manages keyboard input
 Mark Murphy
 Start	- 1/22/2018
-Update	- 1/23/2018
+Update	- 1/24/2018
 ***********************************/
 
 public var uv : UniversalVariables;
@@ -25,23 +25,27 @@ function Update ()
 	{
 		if(uv.controls.controlList[controlEnum.NORTH].isPressed)
 		{
-			goh.targetLocation.transform.position.y += uv.spriteHeight;
-			oc.dirFacing = dirEnum.NORTH;
+			if(oc.dirFacing == dirEnum.NORTH)
+				goh.targetLocation.transform.position.y += uv.spriteHeight;
+			else oc.dirFacing = dirEnum.NORTH;
 		}
 		else if(uv.controls.controlList[controlEnum.SOUTH].isPressed)
 		{
-			goh.targetLocation.transform.position.y -= uv.spriteHeight;
-			oc.dirFacing = dirEnum.SOUTH;
+			if(oc.dirFacing == dirEnum.SOUTH)
+				goh.targetLocation.transform.position.y -= uv.spriteHeight;
+			else oc.dirFacing = dirEnum.SOUTH;
 		}
 		else if(uv.controls.controlList[controlEnum.EAST].isPressed)
 		{
-			goh.targetLocation.transform.position.x -= uv.spriteHeight;
-			oc.dirFacing = dirEnum.EAST;
+			if(oc.dirFacing == dirEnum.EAST)
+				goh.targetLocation.transform.position.x -= uv.spriteHeight;
+			else oc.dirFacing = dirEnum.EAST;
 		}
 		else if(uv.controls.controlList[controlEnum.WEST].isPressed)
 		{
-			goh.targetLocation.transform.position.x += uv.spriteHeight;
-			oc.dirFacing = dirEnum.WEST;
+			if(oc.dirFacing == dirEnum.WEST)
+				goh.targetLocation.transform.position.x += uv.spriteHeight;
+			else oc.dirFacing = dirEnum.WEST;
 		}
 		else
 		{
