@@ -8,37 +8,52 @@ Start	- 1/11/2018
 Update	- 1/24/2018
 ***********************************/
 
-var dirFacing : int;
-var isMoving : boolean;
+public var dirFacing : int;
+public var isMoving : boolean;
 
-//private var animator : Animator;
+private var dirLastFacing : int;
+private var animator : Animator;
 
 function Start ()
 {
 	isMoving = false;
 	dirFacing = dirEnum.SOUTH;
+	dirLastFacing = dirEnum.SOUTH;
 
-	//animator = this.GetComponentInChildren(Animator);
+	animator = this.GetComponentInChildren(Animator);
+
+	animator.Play("Idle_S");
 }
 
 function Update ()
 {
-	switch(dirFacing)
+	if(isMoving)
 	{
-	case dirEnum.NORTH:
-		//animator.SetTrigger("WalkNorth");
-		break;
-	case dirEnum.SOUTH:
-		//animator.SetTrigger("WalkSouth");
-		break;
-	case dirEnum.EAST:
-		//animator.SetTrigger("WalkEast");
-		break;
-	case dirEnum.WEST:
-		//animator.SetTrigger("WalkWest");
-		break;
-	}
+		var hasChangedDir : boolean = (dirLastFacing != dirFacing);
+		var animName : String;
+		switch(dirFacing)
+		{
+		case dirEnum.NORTH:
+			//animName = hasChangedDir ? "Idle_N" : "Walk_N";
+			animName = "Walk_N";
+			break;
+		case dirEnum.SOUTH:
+			//animName = hasChangedDir ? "Idle_S" : "Walk_S";
+			animName = "Walk_S";
+			break;
+		case dirEnum.EAST:
+			//animName = hasChangedDir ? "Idle_E" : "Walk_E";
+			animName = "Walk_E";
+			break;
+		case dirEnum.WEST:
+			//animName = hasChangedDir ? "Idle_W" : "Walk_W";
+			animName = "Walk_W";
+			break;
+		default:
+			animName = "Idle_S";
+			break;
+		}
 
-	//animator.SetBool("Moving", true);
-	//animator.SetBool("Moving", false);
+		animator.Play(animName);
+	}
 }

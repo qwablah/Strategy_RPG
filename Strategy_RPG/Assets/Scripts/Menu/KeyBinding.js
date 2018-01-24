@@ -161,8 +161,8 @@ function setToDefault()
 	// Directions
 	uv.controls.controlList.Add(new KeyBind(controlEnum.NORTH, new List.<KeyCode>([KeyCode.W, KeyCode.UpArrow]) ));
 	uv.controls.controlList.Add(new KeyBind(controlEnum.SOUTH, new List.<KeyCode>([KeyCode.S, KeyCode.DownArrow]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.EAST,  new List.<KeyCode>([KeyCode.A, KeyCode.RightArrow]) ));
-	uv.controls.controlList.Add(new KeyBind(controlEnum.WEST,  new List.<KeyCode>([KeyCode.D, KeyCode.LeftArrow]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.EAST,  new List.<KeyCode>([KeyCode.D, KeyCode.RightArrow]) ));
+	uv.controls.controlList.Add(new KeyBind(controlEnum.WEST,  new List.<KeyCode>([KeyCode.A, KeyCode.LeftArrow]) ));
 
 	// Actions
 	uv.controls.controlList.Add(new KeyBind(controlEnum.ACTION, new List.<KeyCode>([KeyCode.N, KeyCode.Keypad0]) ));

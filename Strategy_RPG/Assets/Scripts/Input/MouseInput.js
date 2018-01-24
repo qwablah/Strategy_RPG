@@ -26,7 +26,7 @@ function Update ()
 	if(Input.GetMouseButtonDown(0))
 	{
 		goh.targetLocation.transform.position = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane));
-		goh.targetLocation.transform.position.z = 0;
+		goh.targetLocation.transform.position.z = 10;
 	}
 
 	if(!uv.isMoving)

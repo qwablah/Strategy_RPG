@@ -38,13 +38,13 @@ function Update ()
 		else if(uv.controls.controlList[controlEnum.EAST].isPressed)
 		{
 			if(oc.dirFacing == dirEnum.EAST)
-				goh.targetLocation.transform.position.x -= uv.spriteHeight;
+				goh.targetLocation.transform.position.x += uv.spriteHeight;
 			else oc.dirFacing = dirEnum.EAST;
 		}
 		else if(uv.controls.controlList[controlEnum.WEST].isPressed)
 		{
 			if(oc.dirFacing == dirEnum.WEST)
-				goh.targetLocation.transform.position.x += uv.spriteHeight;
+				goh.targetLocation.transform.position.x -= uv.spriteHeight;
 			else oc.dirFacing = dirEnum.WEST;
 		}
 		else
@@ -58,6 +58,8 @@ function Update ()
 		goh.moveToLocation.transform.position = goh.targetLocation.transform.position;
 		goh.startLocation.transform.position = goh.character.transform.position;
 	}
+
+	oc.isMoving = uv.isMovePressed;
 }
 
 function OnGUI()
