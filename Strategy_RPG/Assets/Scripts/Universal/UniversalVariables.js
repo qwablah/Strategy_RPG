@@ -5,10 +5,18 @@ UniversalVariables
 Holds variables used by multiple classes
 Mark Murphy
 Start	- 1/22/2018
-Update	- 1/23/2018
+Update	- 1/25/2018
 ***********************************/
 
+enum townSpriteType
+{
+	GRASS, ROAD, SIDEWALK, DRAIN,
+	FIRE_HYDRANT, LAMP_POST, BUILDING,
+	GARBAGE_BIN, RECYCLING_BIN, COMPOST_BIN
+};
+
 enum dirEnum { NORTH, SOUTH, EAST, WEST };
+
 enum controlEnum 
 {
 	NORTH, SOUTH, EAST, WEST,
@@ -120,5 +128,35 @@ class BoundControls
 	function sortControls()
 	{
 		controlList.Sort(function(x : KeyBind){return x.boundKey;});
+	}
+};
+
+class MapPoint
+{
+	public var position : Vector2;
+	public var spriteType : int;
+
+	public var isSolid : boolean;
+	public var isEntrance : boolean;
+
+	function MapPoint(pos : Vector2, solid : boolean, enter : boolean)
+	{
+		position = pos;
+		isSolid = solid;
+		isEntrance = enter;
+	}
+};
+
+class Map
+{
+	public var name : String;
+	public var map : List.<MapPoint>;
+	public var mapWidth : int;
+	public var mapHeight : int;
+
+	function Map(mapName : String, fullMap : List.<MapPoint>)
+	{
+		name = mapName;
+		map = fullMap;
 	}
 };

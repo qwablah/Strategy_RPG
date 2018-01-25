@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: deac14ea4091695498bb9a8622b5170d
-timeCreated: 1516826237
+timeCreated: 1516899208
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -49,7 +49,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -246,19 +246,6 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: -1
-    - serializedVersion: 2
-      name: Walking_Test_Sprites_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 256
-        height: 224
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

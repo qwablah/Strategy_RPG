@@ -1,12 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp-Editor.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\OverworldCharacter.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Universal\UniversalVariables.js">
     <Files>
-      <File FileName="Assets\Scripts\Menu\KeyBinding.js" Line="165" Column="90" />
-      <File FileName="Assets\Scripts\Input\KeyboardInput.js" Line="25" Column="3" />
-      <File FileName="Assets\Scripts\OverworldCharacter.js" Line="50" Column="22" />
+      <File FileName="Assets\Scripts\Menu\KeyBinding.js" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Universal\GameplayObjectHolder.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Movement.js" Line="40" Column="45" />
+      <File FileName="Assets\Scripts\Universal\UniversalVariables.js" Line="29" Column="24" />
+      <File FileName="Assets\Scripts\OverworldCharacter.js" Line="8" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
